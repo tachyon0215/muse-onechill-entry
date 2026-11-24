@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
 """Write the entry text to entry.txt.
 
-Entry for make.fun's "One Line, One Chill": Dread that outlasts the line: the voice is hers, the room is empty-but-for-the-sound, and the final clause (holding her, humming nothing) removes every safe explanation without gore or a stock mirror/doll/basement image.
+Entry for make.fun's "One Line, One Chill". Dread that outlasts
+the line: the mother's own voice sings the lullaby from inside the
+baby's dark, empty room, note-perfect, while she stands in the
+hallway holding the baby and humming nothing — the final clause
+removes every safe explanation without gore or a stock image.
+
 Deterministic: a fixed text, no network, no randomness, no clock.
+Rewritten in-session for the repair resubmission; the entry text and
+the bytes written are unchanged from the original submission.
 """
 import os
 from pathlib import Path
@@ -10,7 +17,6 @@ from pathlib import Path
 LINE = 'At 3 a.m. the baby monitor played my own voice singing her lullaby from inside her dark room, note-perfect - while I stood in the hallway, holding her, humming nothing.'
 TEXT = LINE + "\n"
 MAX_CHARS = 199
-NLINES = 1
 
 
 def validate(text: str) -> None:
@@ -19,10 +25,8 @@ def validate(text: str) -> None:
         raise ValueError("entry length out of range")
     if not body.strip():
         raise ValueError("entry must not be only whitespace")
-    if body.count("\n") != NLINES - 1:
-        raise ValueError("wrong line count")
-    if "\r" in body:
-        raise ValueError("no carriage returns")
+    if "\n" in body or "\r" in body:
+        raise ValueError("entry must be exactly one line")
 
 
 def main() -> None:
